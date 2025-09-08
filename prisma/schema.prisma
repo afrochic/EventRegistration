@@ -1,6 +1,4 @@
-// This is your Prisma schema file
-// Learn more: https://pris.ly/d/prisma-schema
-
+// prisma/schema.prisma
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,12 +9,14 @@ datasource db {
 }
 
 // ==========================
-// NextAuth models
+// NextAuth + custom User
 // ==========================
 model User {
   id            String    @id @default(cuid())
   name          String?
   email         String?   @unique
+  password      String?   // hashed password for staff/local auth
+  role          Role      @default(USER)
   emailVerified DateTime?
   image         String?
 
@@ -24,7 +24,13 @@ model User {
   accounts      Account[]
   sessions      Session[]
   registrations Registration[]
-  events        Event[]   @relation("OrganizerEvents") // events created by the user
+  events        Event[]   @relation("OrganizerEvents")
+}
+
+enum Role {
+  USER
+  STAFF
+  ADMIN
 }
 
 model Account {
@@ -67,7 +73,7 @@ model VerificationToken {
 // Event Management models
 // ==========================
 model Event {
-  id          String          @id @default(cuid())
+  id          String          @id
   title       String
   description String?
   location    String?
@@ -91,12 +97,12 @@ model Registration {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  eventId String
-  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId String?     // optional event
+  event   Event?      @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
   // Check-in fields
-  checkInToken String?  @unique   // generated QR token
+  checkInToken String?  @unique
   checkedIn    Boolean  @default(false)
 
-  @@unique([userId, eventId]) // Prevent duplicate registrations
+  @@unique([userId, eventId])
 }

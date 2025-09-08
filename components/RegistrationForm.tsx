@@ -1,10 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
-import { FaCalendarAlt, FaQrcode, FaUsers, FaChartBar } from 'react-icons/fa';
+import Image from "next/image";
 
-export default function HomePage() {
+export default function RegistrationForm({ eventId }: { eventId: string }) {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [showCheckIn, setShowCheckIn] = useState(false);
@@ -17,7 +16,6 @@ export default function HomePage() {
     const formData = new FormData(e.currentTarget);
     const name = formData.get("name");
     const email = formData.get("email");
-    const eventId = "AFRACA8thCongress";
 
     if (showCheckIn) {
       try {
@@ -66,33 +64,51 @@ export default function HomePage() {
   };
 
   return (
-    <main className="min-h-screen relative flex items-center justify-center p-6 bg-gradient-to-r from-green-500 to-blue-500">
-      <div className="absolute inset-0 z-0">
+    <div className="flex min-h-screen bg-gradient-to-r from-green-500 to-blue-500 p-4 relative overflow-hidden">
+      {/* The background image will cover the entire screen */}
+      <div className="absolute top-0 left-0 w-full h-full">
+        {/* Placeholder for the agricultural technology image */}
         <Image
           src="/images/tractor.jpg"
           alt="Agricultural Technology"
           layout="fill"
           objectFit="cover"
-          className="opacity-15"
+          className="opacity-20"
         />
-        <div className="absolute inset-0 bg-gray-900 opacity-60"></div>
+        <div className="absolute inset-0 bg-black opacity-30"></div>
       </div>
 
-      <div className="relative z-10 grid lg:grid-cols-2 gap-16 max-w-7xl mx-auto items-center">
-        <div className="flex flex-col space-y-8 text-white p-4">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
-            The Future of Agricultural Finance is Here
+      {/* Main content container with text and form */}
+      <div className="relative z-10 flex flex-col md:flex-row items-center justify-center w-full max-w-6xl mx-auto space-y-8 md:space-y-0 md:space-x-12">
+        {/* Left section with event details */}
+        <div className="text-center md:text-left text-white space-y-4 md:w-1/2">
+          <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
+            Welcome to the 8th World Congress on Rural and Agricultural Finance
           </h1>
-          <p className="text-lg md:text-xl font-light max-w-prose">
-            Experience seamless event engagement at the 8th World Congress on Rural and Agricultural Finance with our digital solutions, including real-time schedules and powerful networking tools.
+          <p className="text-lg md:text-xl font-light">
+            [cite_start]Pathways Technologies is a technology partner committed to enhancing your event experience through technology and digital solutions[cite: 16].
           </p>
-
+          <div className="flex justify-center md:justify-start space-x-4 mt-6">
+            <div className="flex items-center space-x-2 text-yellow-300">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>Real-time Schedules</span>
+            </div>
+            <div className="flex items-center space-x-2 text-yellow-300">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+              <span>Networking Features</span>
+            </div>
+          </div>
         </div>
 
-        <div className="w-full max-w-md p-8 bg-white bg-opacity-95 rounded-xl shadow-2xl backdrop-blur-sm mx-auto">
+        {/* Right section with the form */}
+        <div className="w-full max-w-md p-8 bg-white bg-opacity-90 rounded-xl shadow-2xl backdrop-blur-sm">
           <div className="flex justify-center mb-6">
-            <h2 className="text-3xl font-bold text-gray-800">
-              {showCheckIn ? "Event Check-in" : "Register Now"}
+            <h2 className="text-2xl font-bold text-gray-800">
+              {showCheckIn ? "Event Check-in" : "Event Registration"}
             </h2>
           </div>
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -141,6 +157,6 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

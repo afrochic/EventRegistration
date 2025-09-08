@@ -2,9 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { Event, User } from "@prisma/client";
-
-type EventWithOrganizer = Event & { organizer: User | null };
+import type { EventWithOrganizer } from "@/lib/types";
 
 export default function EventCard({ event }: { event: EventWithOrganizer }) {
   return (
